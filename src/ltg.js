@@ -2105,4 +2105,15 @@ var logData = function() {
 
 
 window.setUpModel = setUpModel;
+
+window.changeDuration = changeDuration;
+window.changeDt = changeDt;
+window.changeResources = changeResources;
+window.changeConsumption = changeConsumption;
+
+window.pollCheckBoxes = pollCheckBoxes;
+
 window.runModel = runModel;
+window.resetModel = resetModel;
+window.setDefaults = setDefaults;
+window.fastRun = fastRun;
