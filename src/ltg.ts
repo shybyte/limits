@@ -81,7 +81,7 @@ Level.prototype.tick = function() {
 }
 
 Level.prototype.plot = function() {
-  var cvx = document.getElementById("cv").getContext("2d");
+  var cvx = (document.getElementById("cv") as HTMLCanvasElement).getContext("2d");
   cvx.strokeStyle = this.plotColor;
   cvx.lineWidth = 2;
   cvx.beginPath();
@@ -490,7 +490,7 @@ var timeStep = function() {
   t += dt;
 }
 
-
+let plotTimer: number;
 
 var animationStep = function() {
   timeStep();
@@ -894,7 +894,7 @@ var desiredCompletedFamilySize = new Aux("desiredCompletedFamilySize", 38);
   desiredCompletedFamilySize.units = "dimensionless";            // not persons?
   desiredCompletedFamilySize.dependencies = ["familyResponseToSocialNorm", "socialFamilySizeNorm"];
   desiredCompletedFamilySize.normal = 4.0;
-  zeroPopulationGrowthTargetYear = 4000;
+  const zeroPopulationGrowthTargetYear = 4000;
   desiredCompletedFamilySize.updateFn = function() {
     return clip(2.0, (desiredCompletedFamilySize.normal * familyResponseToSocialNorm.k * socialFamilySizeNorm.k), t, zeroPopulationGrowthTargetYear);
   }
@@ -1860,7 +1860,7 @@ var scaleY = function(y, yMin, yMax) {
 }
 
 var setUpGraph = function() {
-  var cv = document.getElementById("cv");
+  var cv = document.getElementById("cv") as HTMLCanvasElement;
   cv.width = cv.width;
   var cvx = cv.getContext("2d");
 
@@ -1900,7 +1900,7 @@ var setUpGraph = function() {
 
 
 var plotLine = function(data, yMin, yMax, color) {
-  var cvx = document.getElementById("cv").getContext("2d");
+  var cvx = (document.getElementById("cv") as HTMLCanvasElement).getContext("2d");
   cvx.strokeStyle = color;
   cvx.beginPath();
   var leftPoint = data.shift();
@@ -1957,7 +1957,7 @@ var setUpControls = function() {
 
 
 var changeDuration = function() {
-  var sliderInput = parseInt(document.getElementById("duration-slider").value);
+  var sliderInput = parseInt((document.getElementById("duration-slider") as HTMLInputElement).value);
   var sliderReadOut = document.getElementById("duration-readout");
   sliderReadOut.innerHTML = sliderInput.toString();
   stopTime = startTime + sliderInput;
@@ -1966,7 +1966,7 @@ var changeDuration = function() {
 }
 
 var changeDt = function() {
-  var sliderInput = parseInt(document.getElementById("dt-slider").value);
+  var sliderInput = parseInt((document.getElementById("dt-slider") as HTMLInputElement).value);
   var sliderReadOut = document.getElementById("dt-readout");
   var newDt = Math.pow(2, sliderInput);
   sliderReadOut.innerHTML = newDt.toString();
@@ -1975,7 +1975,7 @@ var changeDt = function() {
 }
 
 var changeResources = function() {
-  var sliderInput = parseInt(document.getElementById("resource-slider").value);
+  var sliderInput = parseInt((document.getElementById("resource-slider") as HTMLInputElement).value);
   var sliderReadOut = document.getElementById("resource-readout");
   var newResources = Math.pow(2, sliderInput);
   sliderReadOut.innerHTML = newResources.toString();
@@ -1985,7 +1985,7 @@ var changeResources = function() {
 }
 
 var changeConsumption = function() {
-  var sliderInput = parseFloat(document.getElementById("consumption-slider").value);
+  var sliderInput = parseFloat((document.getElementById("consumption-slider") as HTMLInputElement).value);
   var sliderReadOut = document.getElementById("consumption-readout");
   sliderReadOut.innerHTML = sliderInput.toFixed(2);
   fractionOfIndustrialOutputAllocatedToConsumptionConstant.before = sliderInput;
@@ -2049,7 +2049,7 @@ var pollCheckBoxes = function() {
   for (var i = 0 ; i < ckx.length ; i++) {
     var theInput = ckx[i].getElementsByTagName("input")[0];
     var theEqn = eval(theInput.getAttribute("name"));
-    var theSample = ckx[i].getElementsByClassName("color-sample")[0];
+    var theSample = ckx[i].getElementsByClassName("color-sample")[0] as HTMLElement;
     var theHue = theEqn.plotColor;
     if (theInput.checked == true) {
       theSample.style.backgroundColor = theHue;
@@ -2070,21 +2070,21 @@ var setDefaults = function() {
     theInput.checked = false;
   }
   for (var id in plotVars) {
-    var ckBox = document.getElementById(plotVars[id]);
+    var ckBox = document.getElementById(plotVars[id]) as HTMLInputElement;
     ckBox.checked = true;
   }
   pollCheckBoxes();
-  var duration = document.getElementById("duration-slider");
-  duration.value = 200;
+  var duration = document.getElementById("duration-slider") as HTMLInputElement;
+  duration.value = '200';
   changeDuration();
-  var dtx = document.getElementById("dt-slider");
-  dtx.value = -1;
+  var dtx = document.getElementById("dt-slider")  as HTMLInputElement;
+  dtx.value = '-1';
   changeDt();
-  var res = document.getElementById("resource-slider");
-  res.value = 0;
+  var res = document.getElementById("resource-slider")  as HTMLInputElement;
+  res.value = '0';
   changeResources();
-  var cons = document.getElementById("consumption-slider");
-  cons.value = 0.43;
+  var cons = document.getElementById("consumption-slider")  as HTMLInputElement;
+  cons.value = '0.43';
   changeConsumption();
 }
 
