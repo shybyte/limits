@@ -1,0 +1,23 @@
+{
+  "name": "limits-to-growth-world3",
+  "version": "0.1.0",
+  "description": "Limits to Growth",
+  "main": "ltg.js",
+  "scripts": {
+    "start": "parcel ltg.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shybyte/limits.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shybyte/limits/issues"
+  },
+  "homepage": "https://github.com/shybyte/limits#readme",
+  "devDependencies": {
+    "parcel": "^2.0.0-beta.1"
+  }
+}

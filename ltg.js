@@ -3,8 +3,8 @@
     Dennis and Donella Meadows and others circa 1970. The results
     of the modeling exercise were published in The Limits to Growth
     in 1972, and the model itself was more fully documented in
-    Dynamics of Growth in a Finite World in 1974. 
-    
+    Dynamics of Growth in a Finite World in 1974.
+
 */
 
 
@@ -13,7 +13,7 @@
 // conditional expression.
 
 function clip(a, b, x, y) {
-	if (x >= y) 
+	if (x >= y)
 		return a;
 	else
 		return b
@@ -145,7 +145,7 @@ var Aux = function(qName, qNumber) {
   qArray[qNumber] = this;
   auxArray.push(this);
 }
-  
+
 Aux.prototype.reset = function() {
   this.j = this.k = null;
   this.data = [];
@@ -179,9 +179,9 @@ var Smooth = function(qName, qNumber, delay) {
 
 Smooth.prototype.init = function() {
   this.theInput = this.initFn();
-  this.j = this.k = this.theInput.k || this.initVal; 
+  this.j = this.k = this.theInput.k || this.initVal;
 }
-  
+
 Smooth.prototype.reset = function() {
   this.firstCall = true;
   this.j = this.k = this.null;
@@ -250,7 +250,7 @@ Delay3.prototype.update = function() {
     this.beta.j  = this.beta.k  = this.theInput.k;
     this.gamma.j = this.gamma.k = this.theInput.k;
     this.firstCall = false;
-    return this.k;    
+    return this.k;
   }
   else {
     this.alpha.k = this.alpha.j + dt * (this.theInput.j - this.alpha.j) / this.delayPerStage;
@@ -314,7 +314,7 @@ Table.prototype.reset = function() { return null; }
 
 Table.prototype.update = function() {
   this.k = this.lookup(this.updateFn());
-  return this.k; 
+  return this.k;
 }
 
 Table.prototype.warmup = Table.prototype.update;
@@ -333,7 +333,7 @@ var gatherDependencies = function() {
     d[auxArray[i].qName] = auxArray[i].dependencies;
     depArray[i] = d;
     }
-  return depArray;  
+  return depArray;
 }
 
 var printDeps = function() {
@@ -342,7 +342,7 @@ var printDeps = function() {
     for (var j = 0 ; j < auxArray[i].dependencies.length ; j++) {
       document.writeln("____" + auxArray[i].dependencies[j] + "<br/>");
     }
-  }    
+  }
 }
 
 var qNameToQNumber = function(theName) {
@@ -361,7 +361,7 @@ var printQNumberDependencies = function() {
       document.write(qN, " ");
     }
     document.write("</br>");
-  }    
+  }
 }
 
 
@@ -372,7 +372,7 @@ var printQNameDependencies = function() {
       document.write(auxArray[i].dependencies[j], " ");
     }
     document.write("</br>");
-  }    
+  }
 }
 
 
@@ -387,7 +387,7 @@ var sortAuxEqns = function() {
   }
   auxArray.sort(function(left, right) {
                   if (left.sequenceNumber < right.sequenceNumber) { return -1; } else { return 1; }
-                })  
+                })
 }
 
 
@@ -544,8 +544,8 @@ var fastRun = function() {
     tock();
   }
   while (t <= stopTime) {
-    timeStep();  
-  }  
+    timeStep();
+  }
 }
 
 
@@ -582,7 +582,7 @@ var debugRun = function() {
 //    if (t == 1911) { dumpVars(); };
     t += dt;
     logData();
-  }  
+  }
 }
 
 
@@ -604,10 +604,10 @@ var population = new Aux("population", 1);
 var population0To14 = new Level("population0To14", 2, 6.5e8);
   population0To14.units = "persons";
   population0To14.updateFn = function() {
-    return population0To14.j + dt * 
+    return population0To14.j + dt *
             (birthsPerYear.j - deathsPerYear0To14.j - maturationsPerYear14to15.j);
   }
-  
+
 var deathsPerYear0To14 = new Rate("deathsPerYear0To14", 3);
   deathsPerYear0To14.units = "persons per year";
   deathsPerYear0To14.updateFn = function() {
@@ -618,7 +618,7 @@ var mortality0To14 = new Table("mortality0To14", 4, [0.0567, 0.0366, 0.0243, 0.0
   mortality0To14.units = "deaths per person-year";
   mortality0To14.dependencies = ["lifeExpectancy"];
   mortality0To14.updateFn = function() {
-    return lifeExpectancy.k; 
+    return lifeExpectancy.k;
   }
 
 var maturationsPerYear14to15 = new Rate("maturationsPerYear14to15", 5);
@@ -630,10 +630,10 @@ var maturationsPerYear14to15 = new Rate("maturationsPerYear14to15", 5);
 var population15To44 = new Level("population15To44", 6, 7.0e8);
   population15To44.units = "persons";
   population15To44.updateFn = function() {
-    return population15To44.j + dt * 
+    return population15To44.j + dt *
             (maturationsPerYear14to15.j - deathsPerYear15To44.j - maturationsPerYear44to45.j);
   }
-  
+
 var deathsPerYear15To44 = new Rate("deathsPerYear15To44", 7);
   deathsPerYear15To44.units = "persons per year";
   deathsPerYear15To44.updateFn = function() {
@@ -644,7 +644,7 @@ var mortality15To44 = new Table("mortality15To44", 8, [0.0266, 0.0171, 0.0110, 0
   mortality15To44.units = "deaths per person-year";
   mortality15To44.dependencies = ["lifeExpectancy"];
   mortality15To44.updateFn = function() {
-    return lifeExpectancy.k; 
+    return lifeExpectancy.k;
   }
 
 var maturationsPerYear44to45 = new Rate("maturationsPerYear44to45", 9);
@@ -656,10 +656,10 @@ var maturationsPerYear44to45 = new Rate("maturationsPerYear44to45", 9);
 var population45To64 = new Level("population45To64", 10, 1.9e8);
   population45To64.units = "persons";
   population45To64.updateFn = function() {
-    return population45To64.j + dt * 
+    return population45To64.j + dt *
             (maturationsPerYear44to45.j - deathsPerYear45To64.j - maturationsPerYear64to65.j);
   }
-  
+
 var deathsPerYear45To64 = new Rate("deathsPerYear45To64", 11);
   deathsPerYear45To64.units = "persons per year";
   deathsPerYear45To64.updateFn = function() {
@@ -670,7 +670,7 @@ var mortality45To64 = new Table("mortality45To64", 12, [0.0562, 0.0373, 0.0252, 
   mortality45To64.units = "deaths per person-year";
   mortality45To64.dependencies = ["lifeExpectancy"];
   mortality45To64.updateFn = function() {
-    return lifeExpectancy.k; 
+    return lifeExpectancy.k;
   }
 
 var maturationsPerYear64to65 = new Rate("maturationsPerYear64to65", 13);
@@ -682,10 +682,10 @@ var maturationsPerYear64to65 = new Rate("maturationsPerYear64to65", 13);
 var population65AndOver = new Level("population65AndOver", 14, 6.0e7);
   population65AndOver.units = "persons";
   population65AndOver.updateFn = function() {
-    return population65AndOver.j + dt * 
+    return population65AndOver.j + dt *
             (maturationsPerYear64to65.j - deathsPerYear65AndOver.j);
   }
-  
+
 var deathsPerYear65AndOver = new Rate("deathsPerYear65AndOver", 15);
   deathsPerYear65AndOver.units = "persons per year";
   deathsPerYear65AndOver.updateFn = function() {
@@ -696,7 +696,7 @@ var mortality65AndOver = new Table("mortality65AndOver", 16, [0.13, 0.11, 0.09, 
   mortality65AndOver.units = "deaths per person-year";
   mortality65AndOver.dependencies = ["lifeExpectancy"];
   mortality65AndOver.updateFn = function() {
-    return lifeExpectancy.k; 
+    return lifeExpectancy.k;
   }
 
 
@@ -731,7 +731,7 @@ var lifeExpectancy = new Aux("lifeExpectancy", 19);
   lifeExpectancy.dependencies = ["lifetimeMultiplierFromFood", "lifetimeMultiplierFromHealthServices", "lifetimeMultiplierFromPollution", "lifetimeMultiplierFromCrowding"]
   lifeExpectancy.normal = 32;
   lifeExpectancy.updateFn = function() {
-    return lifeExpectancy.normal * 
+    return lifeExpectancy.normal *
            lifetimeMultiplierFromFood.k *
            lifetimeMultiplierFromHealthServices.k *
            lifetimeMultiplierFromPollution.k *
@@ -746,12 +746,12 @@ var lifetimeMultiplierFromFood = new Table("lifetimeMultiplierFromFood", 20, [0,
   lifetimeMultiplierFromFood.updateFn = function() {
     return foodPerCapita.k / subsistenceFoodPerCapitaK;
   }
-  
+
 var healthServicesAllocationsPerCapita = new Table("healthServicesAllocationsPerCapita", 21, [0, 20, 50, 95, 140, 175, 200, 220, 230], 0, 2000, 250);
   healthServicesAllocationsPerCapita.units = "dollars per person-year";
   healthServicesAllocationsPerCapita.dependencies = ["serviceOutputPerCapita"];
   healthServicesAllocationsPerCapita.updateFn = function() {
-    return serviceOutputPerCapita.k; 
+    return serviceOutputPerCapita.k;
   }
 
 var effectiveHealthServicesPerCapitaImpactDelay = 20; // years, used in eqn 22
@@ -760,7 +760,7 @@ var effectiveHealthServicesPerCapita = new Smooth("effectiveHealthServicesPerCap
   effectiveHealthServicesPerCapita.units = "dollars per person-year";
   effectiveHealthServicesPerCapita.dependencies = ["healthServicesAllocationsPerCapita"];
   effectiveHealthServicesPerCapita.initFn = function() {
-    return healthServicesAllocationsPerCapita; 
+    return healthServicesAllocationsPerCapita;
   }
 
 
@@ -771,24 +771,24 @@ var lifetimeMultiplierFromHealthServices = new Aux("lifetimeMultiplierFromHealth
   lifetimeMultiplierFromHealthServices.updateFn = function() {
     return clip(lifetimeMultiplierFromHealthServicesAfter.k,
                 lifetimeMultiplierFromHealthServicesBefore.k,
-                t, 
+                t,
                 lifetimeMultiplierFromHealthServices.policyYear);
   }
-  
+
 var lifetimeMultiplierFromHealthServicesBefore = new Table("lifetimeMultiplierFromHealthServicesBefore", 24, [1, 1.1, 1.4, 1.6, 1.7, 1.8], 0, 100, 20);
   lifetimeMultiplierFromHealthServicesBefore.units = "dimensionless";
   lifetimeMultiplierFromHealthServicesBefore.dependencies = ["effectiveHealthServicesPerCapita"];
   lifetimeMultiplierFromHealthServicesBefore.updateFn = function() {
     return effectiveHealthServicesPerCapita.k;
   }
-  
+
 var lifetimeMultiplierFromHealthServicesAfter = new Table("lifetimeMultiplierFromHealthServicesAfter", 25, [1, 1.4, 1.6, 1.8, 1.95, 2.0], 0, 100, 20);
   lifetimeMultiplierFromHealthServicesAfter.units = "dimensionless";
   lifetimeMultiplierFromHealthServicesAfter.dependencies = ["effectiveHealthServicesPerCapita"];
   lifetimeMultiplierFromHealthServicesAfter.updateFn = function() {
     return effectiveHealthServicesPerCapita.k;
   }
-  
+
 var fractionOfPopulationUrban = new Table("fractionOfPopulationUrban", 26, [0, 0.2, 0.4, 0.5, 0.58, 0.65, 0.72, 0.78, 0.80], 0, 1.6e10, 2.0e9);
   fractionOfPopulationUrban.units = "dimensionless";
   fractionOfPopulationUrban.dependencies = ["population"];
@@ -807,10 +807,10 @@ var crowdingMultiplierFromIndustrialization = new Table("crowdingMultiplierFromI
 var lifetimeMultiplierFromCrowding = new Aux("lifetimeMultiplierFromCrowding", 28);
   lifetimeMultiplierFromCrowding.units = "dimensionless";
   lifetimeMultiplierFromCrowding.updateFn = function() {
-    return 1 - (crowdingMultiplierFromIndustrialization.k * fractionOfPopulationUrban.k); 
+    return 1 - (crowdingMultiplierFromIndustrialization.k * fractionOfPopulationUrban.k);
   }
 
-var lifetimeMultiplierFromPollution 
+var lifetimeMultiplierFromPollution
       = new Table("lifetimeMultiplierFromPollution", 29, [1.0, 0.99, 0.97, 0.95, 0.90, 0.85, 0.75, 0.65, 0.55, 0.40, 0.20], 0, 100, 10);
   lifetimeMultiplierFromPollution.units = "dimensionless";
   lifetimeMultiplierFromPollution.dependencies = ["indexOfPersistentPollution"];
@@ -832,7 +832,7 @@ var birthsPerYear = new Rate("birthsPerYear", 30);
     var before = totalFertility.k * population15To44.k * 0.5 / birthsPerYear.reproductiveLifetime;
     return clip(after, before, t, birthsPerYear.populationEquilibriumTime);
   }
-  
+
 var crudeBirthRate = new Aux("crudeBirthRate", 31);
   crudeBirthRate.units = "births per 1000 person-years";
   crudeBirthRate.dependencies = ["population"]
@@ -851,7 +851,7 @@ var totalFertility = new Aux("totalFertility", 32);
                    (maxTotalFertility.k * (1 - fertilityControlEffectiveness.k) +
                         desiredTotalFertility.k * fertilityControlEffectiveness.k));
   }
-  
+
 var maxTotalFertility = new Aux("maxTotalFertility", 33);
   maxTotalFertility.units = "dimensionless";
   maxTotalFertility.dependencies = ["fecundityMultiplier"]
@@ -866,15 +866,15 @@ var fecundityMultiplier = new Table("fecundityMultiplier", 34, [0.0, 0.2, 0.4, 0
   fecundityMultiplier.updateFn = function() {
     return lifeExpectancy.k;
   }
- 
+
 var desiredTotalFertility = new Aux("desiredTotalFertility", 35);
   desiredTotalFertility.units = "dimensionless";
   desiredTotalFertility.dependencies = [ "desiredCompletedFamilySize", "compensatoryMultiplierFromPerceivedLifeExpectancy" ]
   desiredTotalFertility.updateFn = function() {
     return desiredCompletedFamilySize.k * compensatoryMultiplierFromPerceivedLifeExpectancy.k;
   }
-  
-var compensatoryMultiplierFromPerceivedLifeExpectancy = 
+
+var compensatoryMultiplierFromPerceivedLifeExpectancy =
         new Table("compensatoryMultiplierFromPerceivedLifeExpectancy", 36, [3.0, 2.1, 1.6, 1.4, 1.3, 1.2, 1.1, 1.05, 1.0], 0, 80, 10);
   compensatoryMultiplierFromPerceivedLifeExpectancy.units = "dimensionless";
   compensatoryMultiplierFromPerceivedLifeExpectancy.dependencies = ["perceivedLifeExpectancy"];
@@ -913,23 +913,23 @@ var delayedIndustrialOutputPerCapita = new Delay3("delayedIndustrialOutputPerCap
   delayedIndustrialOutputPerCapita.dependencies = ["industrialOutputPerCapita"];
   delayedIndustrialOutputPerCapita.initFn = function() { return industrialOutputPerCapita; }
 
-  
+
 var familyResponseToSocialNorm = new Table("familyResponseToSocialNorm", 41, [0.5, 0.6, 0.7, 0.85, 1.0], -0.2, 0.2, 0.1);
   familyResponseToSocialNorm.units = "dimensionless";
   familyResponseToSocialNorm.dependencies = ["familyIncomeExpectation"];
   familyResponseToSocialNorm.updateFn = function() {
     return familyIncomeExpectation.k;
   }
-  
+
 var familyIncomeExpectation = new Aux("familyIncomeExpectation", 42);
   familyIncomeExpectation.units = "dimensionless";
   familyIncomeExpectation.dependencies = ["industrialOutputPerCapita", "averageIndustrialOutputPerCapita"];
   familyIncomeExpectation.updateFn = function() {
     return (industrialOutputPerCapita.k - averageIndustrialOutputPerCapita.k) / averageIndustrialOutputPerCapita.k;
   }
-  
+
 var incomeExpectationAveragingTimeK = 3; // years, used in eqn 43
-  
+
 var averageIndustrialOutputPerCapita = new Smooth("averageIndustrialOutputPerCapita", 43, incomeExpectationAveragingTimeK);
   averageIndustrialOutputPerCapita.units = "dollars per person-year";
   averageIndustrialOutputPerCapita.dependencies = ["industrialOutputPerCapita"];
@@ -942,7 +942,7 @@ var needForFertilityControl = new Aux("needForFertilityControl", 44);
   needForFertilityControl.updateFn = function() {
     return (maxTotalFertility.k / desiredTotalFertility.k) - 1;
   }
-  
+
 var fertilityControlEffectiveness = new Table("fertilityControlEffectiveness", 45, [0.75, 0.85, 0.90, 0.95, 0.98, 0.99, 1.0], 0, 3, 0.5 );
   fertilityControlEffectiveness.units = "dimensionless";
   fertilityControlEffectiveness.dependencies = ["fertilityControlFacilitiesPerCapita"];
@@ -957,21 +957,21 @@ var fertilityControlFacilitiesPerCapita = new Delay3("fertilityControlFacilities
   fertilityControlFacilitiesPerCapita.dependencies = ["fertilityControlAllocationPerCapita"];
   fertilityControlFacilitiesPerCapita.initFn = function() { return fertilityControlAllocationPerCapita; }
 
-  
+
 var fertilityControlAllocationPerCapita = new Aux("fertilityControlAllocationPerCapita", 47);
   fertilityControlAllocationPerCapita.units = "dollars per person-year";
   fertilityControlAllocationPerCapita.dependencies = ["serviceOutputPerCapita", "fractionOfServicesAllocatedToFertilityControl"];
   fertilityControlAllocationPerCapita.updateFn = function() {
     return fractionOfServicesAllocatedToFertilityControl.k * serviceOutputPerCapita.k;
   }
-  
+
 var fractionOfServicesAllocatedToFertilityControl = new Table("fractionOfServicesAllocatedToFertilityControl", 48, [0.0, 0.005, 0.015, 0.025, 0.030, 0.035], 0, 10, 2);
   fractionOfServicesAllocatedToFertilityControl.units = "dimensionless";
   fractionOfServicesAllocatedToFertilityControl.dependencies = ["needForFertilityControl"];
   fractionOfServicesAllocatedToFertilityControl.updateFn = function() {
     return needForFertilityControl.k;
   }
-  
+
 
 
 
@@ -989,7 +989,7 @@ var industrialOutputPerCapita = new Aux("industrialOutputPerCapita", 49);
   industrialOutputPerCapita.updateFn = function() {
     return industrialOutput.k / population.k;
   }
-  
+
 var industrialOutput = new Aux("industrialOutput", 50);
   industrialOutput.units = "dollars per year";
   industrialOutput.valueIn1970 = 7.9e11;   // for eqns 106 and 107
@@ -997,7 +997,7 @@ var industrialOutput = new Aux("industrialOutput", 50);
   industrialOutput.updateFn = function() {
     return industrialCapital.k * (1 - fractionOfCapitalAllocatedToObtainingResources.k) * capitalUtilizationFraction.k / industrialCapitalOutputRatio.k;
   }
-  
+
 var industrialCapitalOutputRatio = new Aux("industrialCapitalOutputRatio", 51);
   industrialCapitalOutputRatio.units = "years";
   industrialCapitalOutputRatio.before = 3;
@@ -1009,16 +1009,16 @@ var industrialCapitalOutputRatio = new Aux("industrialCapitalOutputRatio", 51);
 var industrialCapital = new Level("industrialCapital", 52, 2.1e11);
   industrialCapital.units = "dollars";
   industrialCapital.updateFn = function() {
-    return industrialCapital.j + dt * 
+    return industrialCapital.j + dt *
             (industrialCapitalInvestmentRate.j - industrialCapitalDepreciationRate.j);
   }
-  
+
 var industrialCapitalDepreciationRate = new Rate("industrialCapitalDepreciationRate", 53);
   industrialCapitalDepreciationRate.units = "dollars per year";
   industrialCapitalDepreciationRate.updateFn = function() {
     return industrialCapital.k / averageLifetimeOfIndustrialCapital.k;
   }
-  
+
 var averageLifetimeOfIndustrialCapital = new Aux("averageLifetimeOfIndustrialCapital", 54);
   averageLifetimeOfIndustrialCapital.units = "years";
   averageLifetimeOfIndustrialCapital.before = 14;
@@ -1026,20 +1026,20 @@ var averageLifetimeOfIndustrialCapital = new Aux("averageLifetimeOfIndustrialCap
   averageLifetimeOfIndustrialCapital.updateFn = function() {
     return clip(averageLifetimeOfIndustrialCapital.after, averageLifetimeOfIndustrialCapital.before, t, policyYear);
   }
-  
+
 var industrialCapitalInvestmentRate = new Rate("industrialCapitalInvestmentRate", 55);
   industrialCapitalInvestmentRate.units = "dollars per year";
   industrialCapitalInvestmentRate.updateFn = function() {
     return industrialOutput.k * fractionOfIndustrialOutputAllocatedToIndustry.k;
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToIndustry = new Aux("fractionOfIndustrialOutputAllocatedToIndustry", 56);
   fractionOfIndustrialOutputAllocatedToIndustry.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToIndustry.dependencies = ["fractionOfIndustrialOutputAllocatedToAgriculture", "fractionOfIndustrialOutputAllocatedToServices", "fractionOfIndustrialOutputAllocatedToConsumption"];
   fractionOfIndustrialOutputAllocatedToIndustry.updateFn = function() {
     return 1 - fractionOfIndustrialOutputAllocatedToAgriculture.k - fractionOfIndustrialOutputAllocatedToServices.k - fractionOfIndustrialOutputAllocatedToConsumption.k;
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToConsumption = new Aux("fractionOfIndustrialOutputAllocatedToConsumption", 57);
   fractionOfIndustrialOutputAllocatedToConsumption.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToConsumption.dependencies = ["fractionOfIndustrialOutputAllocatedToConsumptionVariable"];
@@ -1047,7 +1047,7 @@ var fractionOfIndustrialOutputAllocatedToConsumption = new Aux("fractionOfIndust
   fractionOfIndustrialOutputAllocatedToConsumption.updateFn = function() {
     return clip(fractionOfIndustrialOutputAllocatedToConsumptionVariable.k, fractionOfIndustrialOutputAllocatedToConsumptionConstant.k, t, fractionOfIndustrialOutputAllocatedToConsumption.industrialEquilibriumTime);
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToConsumptionConstant = new Aux("fractionOfIndustrialOutputAllocatedToConsumptionConstant", 58);
   fractionOfIndustrialOutputAllocatedToConsumptionConstant.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToConsumptionConstant.before = 0.43;
@@ -1055,7 +1055,7 @@ var fractionOfIndustrialOutputAllocatedToConsumptionConstant = new Aux("fraction
   fractionOfIndustrialOutputAllocatedToConsumptionConstant.updateFn = function() {
     return clip(fractionOfIndustrialOutputAllocatedToConsumptionConstant.after, fractionOfIndustrialOutputAllocatedToConsumptionConstant.before, t, policyYear);
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToConsumptionVariable = new Table("fractionOfIndustrialOutputAllocatedToConsumptionVariable", 59, [0.3, 0.32, 0.34, 0.36, 0.38, 0.43, 0.73, 0.77, 0.81, 0.82, 0.83], 0, 2, 0.2);
   fractionOfIndustrialOutputAllocatedToConsumptionVariable.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToConsumptionVariable.dependencies = ["industrialOutputPerCapita"];
@@ -1063,7 +1063,7 @@ var fractionOfIndustrialOutputAllocatedToConsumptionVariable = new Table("fracti
   fractionOfIndustrialOutputAllocatedToConsumptionVariable.updateFn = function() {
     return industrialOutputPerCapita.k / fractionOfIndustrialOutputAllocatedToConsumptionVariable.industrialOutputPerCapitaDesired;
   }
-  
+
 
 // The Service Subsector
 
@@ -1073,61 +1073,61 @@ var indicatedServiceOutputPerCapita = new Aux("indicatedServiceOutputPerCapita",
   indicatedServiceOutputPerCapita.updateFn = function() {
     return clip(indicatedServiceOutputPerCapitaAfter.k, indicatedServiceOutputPerCapitaBefore.k, t, policyYear);
   }
-  
+
 var indicatedServiceOutputPerCapitaBefore = new Table("indicatedServiceOutputPerCapitaBefore", 61, [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000], 0, 1600, 200);
   indicatedServiceOutputPerCapitaBefore.units = "dollars per person-year";
   indicatedServiceOutputPerCapitaBefore.dependencies = ["industrialOutputPerCapita"];
   indicatedServiceOutputPerCapitaBefore.updateFn = function() {
     return industrialOutputPerCapita.k;
   }
-  
+
 var indicatedServiceOutputPerCapitaAfter = new Table("indicatedServiceOutputPerCapitaAfter", 62, [40, 300, 640, 1000, 1220, 1450, 1650, 1800, 2000], 0, 1600, 200);
   indicatedServiceOutputPerCapitaAfter.units = "dollars per person-year";
   indicatedServiceOutputPerCapitaAfter.dependencies = ["industrialOutputPerCapita"];
   indicatedServiceOutputPerCapitaAfter.updateFn = function() {
     return industrialOutputPerCapita.k;
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToServices = new Aux("fractionOfIndustrialOutputAllocatedToServices", 63);
   fractionOfIndustrialOutputAllocatedToServices.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToServices.dependencies = ["fractionOfIndustrialOutputAllocatedToServicesBefore", "fractionOfIndustrialOutputAllocatedToServicesAfter"];
   fractionOfIndustrialOutputAllocatedToServices.updateFn = function() {
     return clip(fractionOfIndustrialOutputAllocatedToServicesAfter.k, fractionOfIndustrialOutputAllocatedToServicesBefore.k, t, policyYear);
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToServicesBefore = new Table("fractionOfIndustrialOutputAllocatedToServicesBefore", 64, [0.3, 0.2, 0.1, 0.05, 0], 0, 2, 0.5);
   fractionOfIndustrialOutputAllocatedToServicesBefore.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToServicesBefore.dependencies = ["serviceOutputPerCapita", "indicatedServiceOutputPerCapita"];
   fractionOfIndustrialOutputAllocatedToServicesBefore.updateFn = function() {
     return serviceOutputPerCapita.k / indicatedServiceOutputPerCapita.k;
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToServicesAfter = new Table("fractionOfIndustrialOutputAllocatedToServicesAfter", 65, [0.3, 0.2, 0.1, 0.05, 0], 0, 2, 0.5);
   fractionOfIndustrialOutputAllocatedToServicesAfter.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToServicesAfter.dependencies = ["serviceOutputPerCapita", "indicatedServiceOutputPerCapita"];
   fractionOfIndustrialOutputAllocatedToServicesAfter.updateFn = function() {
     return serviceOutputPerCapita.k / indicatedServiceOutputPerCapita.k;
   }
-  
+
 var serviceCapitalInvestmentRate = new Rate("serviceCapitalInvestmentRate", 66);
   serviceCapitalInvestmentRate.units = "dollars per year";
   serviceCapitalInvestmentRate.updateFn = function() {
     return industrialOutput.k * fractionOfIndustrialOutputAllocatedToServices.k;
   }
-  
+
 var serviceCapital = new Level("serviceCapital", 67, 1.44e11);
   serviceCapital.units = "dollars";
   serviceCapital.updateFn = function() {
-    return serviceCapital.j + dt * 
+    return serviceCapital.j + dt *
             (serviceCapitalInvestmentRate.j - serviceCapitalDepreciationRate.j);
   }
-  
+
 var serviceCapitalDepreciationRate = new Rate("serviceCapitalDepreciationRate", 68);
   serviceCapitalDepreciationRate.units = "dollars per year";
   serviceCapitalDepreciationRate.updateFn = function() {
     return serviceCapital.k / averageLifetimeOfServiceCapital.k;
   }
-  
+
 var averageLifetimeOfServiceCapital = new Aux("averageLifetimeOfServiceCapital", 69);
   averageLifetimeOfServiceCapital.units = "years";
   averageLifetimeOfServiceCapital.before = 20;   // years
@@ -1135,7 +1135,7 @@ var averageLifetimeOfServiceCapital = new Aux("averageLifetimeOfServiceCapital",
   averageLifetimeOfServiceCapital.updateFn = function() {
     return clip(averageLifetimeOfServiceCapital.after, averageLifetimeOfServiceCapital.before, t, policyYear);
   }
-  
+
 var serviceOutput = new Aux("serviceOutput", 70);
   serviceOutput.units = "dollars per year";
   serviceOutput.plotColor = "#4a8a91";
@@ -1182,9 +1182,9 @@ var jobsPerIndustrialCapitalUnit = new Table("jobsPerIndustrialCapitalUnit", 75,
   jobsPerIndustrialCapitalUnit.units = "persons per dollar";
   jobsPerIndustrialCapitalUnit.dependencies = ["industrialOutputPerCapita"];
   jobsPerIndustrialCapitalUnit.updateFn = function() {
-    return industrialOutputPerCapita.k; 
+    return industrialOutputPerCapita.k;
   }
-  
+
 var potentialJobsInServiceSector = new Aux("potentialJobsInServiceSector", 76);
   potentialJobsInServiceSector.units = "persons";
   potentialJobsInServiceSector.dependencies = ["jobsPerServiceCapitalUnit"];
@@ -1196,9 +1196,9 @@ var jobsPerServiceCapitalUnit = new Table("jobsPerServiceCapitalUnit", 77, [.001
   jobsPerServiceCapitalUnit.units = "persons per dollar";
   jobsPerServiceCapitalUnit.dependencies = ["serviceOutputPerCapita"];
   jobsPerServiceCapitalUnit.updateFn = function() {
-    return serviceOutputPerCapita.k; 
+    return serviceOutputPerCapita.k;
   }
-  
+
 var potentialJobsInAgriculturalSector = new Aux("potentialJobsInAgriculturalSector", 78);
   potentialJobsInAgriculturalSector.units = "persons";
   potentialJobsInAgriculturalSector.dependencies = ["jobsPerHectare"];
@@ -1212,7 +1212,7 @@ var jobsPerHectare = new Table("jobsPerHectare", 79, [2, 0.5, 0.4, 0.3, 0.27, 0.
   jobsPerHectare.updateFn = function() {
     return agriculturalInputsPerHectare.k;
   }
-  
+
 var laborForce = new Aux("laborForce", 80);
   laborForce.units = "persons";
   laborForce.participationFraction = 0.75  // dimensionless
@@ -1259,16 +1259,16 @@ var arableLand = new Level("arableLand", 85, 0.9e9);
   arableLand.plotMin = 0;
   arableLand.plotMax = 3.0e9;
   arableLand.updateFn = function() {
-    return arableLand.j + dt * 
+    return arableLand.j + dt *
             (landDevelopmentRate.j - landErosionRate.j - landRemovalForUrbanIndustrialUse.j);
   }
-  
+
 var potentiallyArableLand = new Level("potentiallyArableLand", 86, 2.3e9);
   potentiallyArableLand.units = "hectares";
   potentiallyArableLand.updateFn = function() {
     return potentiallyArableLand.j + dt * (-landDevelopmentRate.j)
   }
-  
+
 var food = new Aux("food", 87);
   food.units = "kilograms per year";
   food.dependencies = ["landYield"];
@@ -1277,7 +1277,7 @@ var food = new Aux("food", 87);
   food.updateFn = function() {
     return landYield.k * arableLand.k * food.landFractionHarvestedK * (1 - food.processingLossK);
   }
-  
+
 var foodPerCapita = new Aux("foodPerCapita", 88);
   foodPerCapita.units = "kilograms per person-year";
   foodPerCapita.dependencies = ["food", "population"];
@@ -1287,68 +1287,68 @@ var foodPerCapita = new Aux("foodPerCapita", 88);
   foodPerCapita.updateFn = function() {
     return food.k / population.k;
   }
-  
+
 var indicatedFoodPerCapita = new Aux("indicatedFoodPerCapita", 89);
   indicatedFoodPerCapita.units = "kilograms per person-year";
   indicatedFoodPerCapita.dependencies = ["indicatedFoodPerCapitaBefore", "indicatedFoodPerCapitaAfter"];
   indicatedFoodPerCapita.updateFn = function() {
     return clip(indicatedFoodPerCapitaAfter.k, indicatedFoodPerCapitaBefore.k, t, policyYear);
   }
-  
+
 var indicatedFoodPerCapitaBefore = new Table("indicatedFoodPerCapitaBefore", 90, [230, 480, 690, 850, 970, 1070, 1150, 1210, 1250], 0, 1600, 200)
   indicatedFoodPerCapitaBefore.units = "kilograms per person-year";
   indicatedFoodPerCapitaBefore.dependencies = ["industrialOutputPerCapita"];
   indicatedFoodPerCapitaBefore.updateFn = function() {
     return industrialOutputPerCapita.k;
   }
-  
+
 var indicatedFoodPerCapitaAfter = new Table("indicatedFoodPerCapitaAfter", 91, [230, 480, 690, 850, 970, 1070, 1150, 1210, 1250], 0, 1600, 200)
   indicatedFoodPerCapitaAfter.units = "kilograms per person-year";
   indicatedFoodPerCapitaAfter.dependencies = ["industrialOutputPerCapita"];
   indicatedFoodPerCapitaAfter.updateFn = function() {
     return industrialOutputPerCapita.k;
   }
-  
+
 var totalAgriculturalInvestment = new Aux("totalAgriculturalInvestment", 92);
   totalAgriculturalInvestment.units = "dollars per year";
   totalAgriculturalInvestment.dependencies = ["industrialOutput", "fractionOfIndustrialOutputAllocatedToAgriculture"];
   totalAgriculturalInvestment.updateFn = function() {
     return industrialOutput.k * fractionOfIndustrialOutputAllocatedToAgriculture.k;
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToAgriculture = new Aux("fractionOfIndustrialOutputAllocatedToAgriculture", 93);
   fractionOfIndustrialOutputAllocatedToAgriculture.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToAgriculture.dependencies = ["fractionOfIndustrialOutputAllocatedToAgricultureBefore", "fractionOfIndustrialOutputAllocatedToAgricultureAfter"];
   fractionOfIndustrialOutputAllocatedToAgriculture.updateFn = function() {
     return clip(fractionOfIndustrialOutputAllocatedToAgricultureAfter.k, fractionOfIndustrialOutputAllocatedToAgricultureBefore.k, t, policyYear);
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToAgricultureBefore = new Table("fractionOfIndustrialOutputAllocatedToAgricultureBefore", 94, [0.4, 0.2, 0.1, 0.025, 0, 0], 0, 2.5, 0.5)
   fractionOfIndustrialOutputAllocatedToAgricultureBefore.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToAgricultureBefore.dependencies = ["foodPerCapita", "indicatedFoodPerCapita"];
   fractionOfIndustrialOutputAllocatedToAgricultureBefore.updateFn = function() {
     return foodPerCapita.k / indicatedFoodPerCapita.k;
   }
-  
+
 var fractionOfIndustrialOutputAllocatedToAgricultureAfter = new Table("fractionOfIndustrialOutputAllocatedToAgricultureAfter", 95, [0.4, 0.2, 0.1, 0.025, 0, 0], 0, 2.5, 0.5)
   fractionOfIndustrialOutputAllocatedToAgricultureAfter.units = "dimensionless";
   fractionOfIndustrialOutputAllocatedToAgricultureAfter.dependencies = ["foodPerCapita", "indicatedFoodPerCapita"];
   fractionOfIndustrialOutputAllocatedToAgricultureAfter.updateFn = function() {
     return foodPerCapita.k / indicatedFoodPerCapita.k;
   }
-  
+
 var landDevelopmentRate = new Rate("landDevelopmentRate", 96);
   landDevelopmentRate.units = "hectares per year";
   landDevelopmentRate.updateFn = function() {
     return totalAgriculturalInvestment.k * fractionOfInputsAllocatedToLandDevelopment.k / developmentCostPerHectare.k;
   }
-  
+
 var developmentCostPerHectare = new Table("developmentCostPerHectare", 97, [100000, 7400, 5200, 3500, 2400, 1500, 750, 300, 150, 75, 50], 0, 1.0, 0.1)
   developmentCostPerHectare.units = "dollars per hectare";
   developmentCostPerHectare.updateFn = function() {
     return potentiallyArableLand.k / landFractionCultivated.potentiallyArableLandTotal;
   }
-  
+
 
 // Loop 2: Food from Investment in Agricultural Inputs
 
@@ -1406,14 +1406,14 @@ var agriculturalInputsPerHectare = new Aux("agriculturalInputsPerHectare", 101);
   agriculturalInputsPerHectare.updateFn = function() {
     return agriculturalInputs.k * (1 - fractionOfInputsAllocatedToLandMaintenance.k) / arableLand.k;
   }
-  
+
 var landYieldMultiplierFromCapital = new Table("landYieldMultiplierFromCapital", 102, [1, 3, 3.8, 4.4, 4.9, 5.4, 5.7, 6, 6.3, 6.6, 6.9, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8, 9, 9.2, 9.4, 9.6, 9.8, 10], 0, 1000, 40)
   landYieldMultiplierFromCapital.units = "dimensionless";
   landYieldMultiplierFromCapital.dependencies = ["agriculturalInputsPerHectare"];
   landYieldMultiplierFromCapital.updateFn = function() {
     return agriculturalInputsPerHectare.k;
   }
-  
+
 var landYield = new Aux("landYield", 103);
   landYield.units = "kilograms per hectare-year";
   landYield.plotColor = "#185103";
@@ -1426,7 +1426,7 @@ var landYield = new Aux("landYield", 103);
            landYieldMultiplierFromCapital.k *
            landYieldMultiplierFromAirPollution.k;
   }
-  
+
 var landYieldFactor = new Aux("landYieldFactor", 104);
   landYieldFactor.units = "dimensionless";
   landYieldFactor.before = 1;
@@ -1441,21 +1441,21 @@ var landYieldMultiplierFromAirPollution = new Aux("landYieldMultiplierFromAirPol
   landYieldMultiplierFromAirPollution.updateFn = function() {
     return clip(landYieldMultiplierFromAirPollutionAfter.k, landYieldMultiplierFromAirPollutionBefore.k, t, policyYear);
   }
-  
+
 var landYieldMultiplierFromAirPollutionBefore = new Table("landYieldMultiplierFromAirPollutionBefore", 106, [1, 1, 0.7, 0.4], 0, 30, 10)
   landYieldMultiplierFromAirPollutionBefore.units = "dimensionless";
   landYieldMultiplierFromAirPollutionBefore.dependencies = ["industrialOutput"];
   landYieldMultiplierFromAirPollutionBefore.updateFn = function() {
     return industrialOutput.k / industrialOutput.valueIn1970;
   }
-  
+
 var landYieldMultiplierFromAirPollutionAfter = new Table("landYieldMultiplierFromAirPollutionAfter", 107, [1, 1, 0.7, 0.4], 0, 30, 10)
   landYieldMultiplierFromAirPollutionAfter.units = "dimensionless";
   landYieldMultiplierFromAirPollutionAfter.dependencies = ["industrialOutput"];
   landYieldMultiplierFromAirPollutionAfter.updateFn = function() {
     return industrialOutput.k / industrialOutput.valueIn1970;
   }
-  
+
 
 // Loops 1 and 2: The Investment Allocation Decision
 
@@ -1468,26 +1468,26 @@ var fractionOfInputsAllocatedToLandDevelopment = new Table("fractionOfInputsAllo
 
 var marginalProductivityOfLandDevelopment = new Aux("marginalProductivityOfLandDevelopment", 109);
   marginalProductivityOfLandDevelopment.units = "kilograms per dollar";
-  marginalProductivityOfLandDevelopment.socialDiscount = 0.07; 
+  marginalProductivityOfLandDevelopment.socialDiscount = 0.07;
   marginalProductivityOfLandDevelopment.dependencies = ["landYield", "developmentCostPerHectare"]
   marginalProductivityOfLandDevelopment.updateFn = function() {
     return landYield.k / (developmentCostPerHectare.k * marginalProductivityOfLandDevelopment.socialDiscount);
   }
-  
+
 var marginalProductivityOfAgriculturalInputs = new Aux("marginalProductivityOfAgriculturalInputs", 110);
   marginalProductivityOfAgriculturalInputs.units = "kilograms per dollar";
   marginalProductivityOfAgriculturalInputs.dependencies = ["averageLifetimeOfAgriculturalInputs", "landYield", "marginalLandYieldMultiplierFromCapital", "landYieldMultiplierFromCapital"]
   marginalProductivityOfAgriculturalInputs.updateFn = function() {
     return averageLifetimeOfAgriculturalInputsK * landYield.k * (marginalLandYieldMultiplierFromCapital.k / landYieldMultiplierFromCapital.k);
   }
-  
+
 var marginalLandYieldMultiplierFromCapital = new Table("marginalLandYieldMultiplierFromCapital", 111, [0.075, 0.03, 0.015, 0.011, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005], 0, 600, 40)
   marginalLandYieldMultiplierFromCapital.units = "hectares per dollar";
   marginalLandYieldMultiplierFromCapital.dependencies = ["agriculturalInputsPerHectare"];
   marginalLandYieldMultiplierFromCapital.updateFn = function() {
     return agriculturalInputsPerHectare.k;
   }
-  
+
 
 // Loop 3: Land Erosion and Urban-Industrial Use
 
@@ -1499,14 +1499,14 @@ var averageLifeOfLand = new Aux("averageLifeOfLand", 112);
   averageLifeOfLand.updateFn = function() {
     return averageLifeOfLand.normal * landLifeMultiplierFromYield.k;
   }
-  
+
 var landLifeMultiplierFromYield = new Aux("landLifeMultiplierFromYield", 113);
   landLifeMultiplierFromYield.units = "dimensionless";
   landLifeMultiplierFromYield.dependencies = ["landLifeMultiplierFromYieldBefore", "landLifeMultiplierFromYieldAfter"];
   landLifeMultiplierFromYield.updateFn = function() {
     return clip(landLifeMultiplierFromYieldAfter.k, landLifeMultiplierFromYieldBefore.k, t, policyYear);
   }
-  
+
 var inherentLandFertilityK = 600;   // kilograms per hectare-year, used in eqns 114, 115 and 124
 
 var landLifeMultiplierFromYieldBefore = new Table("landLifeMultiplierFromYieldBefore", 114, [1.2, 1, 0.63, 0.36, 0.16, 0.055, 0.04, 0.025, 0.015, 0.01], 0, 9, 1)
@@ -1515,24 +1515,24 @@ var landLifeMultiplierFromYieldBefore = new Table("landLifeMultiplierFromYieldBe
   landLifeMultiplierFromYieldBefore.updateFn = function() {
     return landYield.k / inherentLandFertilityK;
   }
-  
+
 var landLifeMultiplierFromYieldAfter = new Table("landLifeMultiplierFromYieldAfter", 115, [1.2, 1, 0.63, 0.36, 0.16, 0.055, 0.04, 0.025, 0.015, 0.01], 0, 9, 1)
   landLifeMultiplierFromYieldAfter.units = "dimensionless";
   landLifeMultiplierFromYieldAfter.dependencies = ["landYield"];
   landLifeMultiplierFromYieldAfter.updateFn = function() {
     return landYield.k / inherentLandFertilityK;
   }
-  
+
 var landErosionRate = new Rate("landErosionRate", 116);
   landErosionRate.units = "hectares per year";
   landErosionRate.updateFn = function() {
     return arableLand.k / averageLifeOfLand.k;
   }
-  
+
 // 2016-08-09: Neil S. Grant reported an error in the table of values
 // for urbanIndustrialLandPerCapita. The third element of the array
 // should be 0.015, not 0.15. Corrected.
-  
+
 var urbanIndustrialLandPerCapita = new Table("urbanIndustrialLandPerCapita", 117, [0.005, 0.008, 0.015, 0.025, 0.04, 0.055, 0.07, 0.08, 0.09], 0, 1600, 200);
   urbanIndustrialLandPerCapita.units = "hectares per person";
   urbanIndustrialLandPerCapita.dependencies = ["industrialOutputPerCapita"];
@@ -1546,20 +1546,20 @@ var urbanIndustrialLandRequired = new Aux("urbanIndustrialLandRequired", 118);
   urbanIndustrialLandRequired.updateFn = function() {
     return urbanIndustrialLandPerCapita.k * population.k;
   }
-  
+
 var landRemovalForUrbanIndustrialUse = new Rate("landRemovalForUrbanIndustrialUse", 119);
   landRemovalForUrbanIndustrialUse.units = "hectares per year";
   landRemovalForUrbanIndustrialUse.developmentTime = 10;   // years
   landRemovalForUrbanIndustrialUse.updateFn = function() {
     return Math.max(0, (urbanIndustrialLandRequired.k - urbanIndustrialLand.k) / landRemovalForUrbanIndustrialUse.developmentTime);
   }
-  
+
 var urbanIndustrialLand = new Level("urbanIndustrialLand", 120, 8.2e6);
   urbanIndustrialLand.units = "hectares";
   urbanIndustrialLand.updateFn = function() {
     return urbanIndustrialLand.j + dt * landRemovalForUrbanIndustrialUse.j;
   }
-  
+
 
 // Loop 4: Land fertility degradation
 
@@ -1568,7 +1568,7 @@ var landFertility = new Level("landFertility", 121, 600);
   landFertility.updateFn = function() {
     return landFertility.j + dt * (landFertilityRegeneration.j - landFertilityDegradation.j);
   }
-  
+
 var landFertilityDegradationRate = new Table("landFertilityDegradationRate", 122, [0, 0.1, 0.3, 0.5], 0, 30, 10);
   landFertilityDegradationRate.units = "inverse years";
   landFertilityDegradationRate.dependencies = ["indexOfPersistentPollution"];
@@ -1581,7 +1581,7 @@ var landFertilityDegradation = new Rate("landFertilityDegradation", 123);
   landFertilityDegradation.updateFn = function() {
     return landFertility.k * landFertilityDegradationRate.k;
   }
-  
+
 
 
 // Loop 5: Land fertility regeneration
@@ -1592,7 +1592,7 @@ var landFertilityRegeneration = new Rate("landFertilityRegeneration", 124);
   landFertilityRegeneration.updateFn = function() {
     return (inherentLandFertilityK - landFertility.k) / landFertilityRegenerationTime.k;
   }
-  
+
 var landFertilityRegenerationTime = new Table("landFertilityRegenerationTime", 125, [20, 13, 8, 4, 2, 2], 0, 0.1, 0.02);
   landFertilityRegenerationTime.units = "years";
   landFertilityRegenerationTime.dependencies = ["fractionOfInputsAllocatedToLandMaintenance"];
@@ -1616,9 +1616,9 @@ var foodRatio = new Aux("foodRatio", 127);
   foodRatio.updateFn = function() {
     return foodPerCapita.k / subsistenceFoodPerCapitaK;
   }
-  
+
 var foodShortagePerceptionDelayK = 2;  // years, used in eqn 128
-  
+
 var perceivedFoodRatio = new Smooth("perceivedFoodRatio", 128, foodShortagePerceptionDelayK);
   perceivedFoodRatio.units = "dimensionless";
   perceivedFoodRatio.dependencies = [];   // "foodRatio" removed to break cycle
@@ -1633,7 +1633,7 @@ var perceivedFoodRatio = new Smooth("perceivedFoodRatio", 128, foodShortagePerce
   perceivedFoodRatio.initFn = function() { return foodRatio; }
   perceivedFoodRatio.init = function() {
     perceivedFoodRatio.theInput = perceivedFoodRatio.initFn;
-    perceivedFoodRatio.j = perceivedFoodRatio.k = 1.0;    
+    perceivedFoodRatio.j = perceivedFoodRatio.k = 1.0;
   }
   perceivedFoodRatio.update = function() {
     if (perceivedFoodRatio.firstCall) {
@@ -1646,8 +1646,8 @@ var perceivedFoodRatio = new Smooth("perceivedFoodRatio", 128, foodShortagePerce
     }
   }
 */
-  
-  
+
+
 // NONRENEWABLE RESOURCE SECTOR
 
 
@@ -1658,13 +1658,13 @@ var nonrenewableResources = new Level("nonrenewableResources", 129, nonrenewable
   nonrenewableResources.updateFn = function() {
     return nonrenewableResources.j + dt * (-nonrenewableResourceUsageRate.j);
   }
-  
+
 var nonrenewableResourceUsageRate = new Rate("nonrenewableResourceUsageRate", 130);
   nonrenewableResourceUsageRate.units = "resource units per year";
   nonrenewableResourceUsageRate.updateFn = function() {
     return population.k * perCapitaResourceUsageMultiplier.k * nonrenewableResourceUsageFactor.k;
   }
-  
+
 var nonrenewableResourceUsageFactor = new Aux("nonrenewableResourceUsageFactor", 131);
   nonrenewableResourceUsageFactor.units = "dimensionless";
   nonrenewableResourceUsageFactor.before = 1;
@@ -1688,28 +1688,28 @@ var nonrenewableResourceFractionRemaining = new Aux("nonrenewableResourceFractio
   nonrenewableResourceFractionRemaining.updateFn = function() {
     return nonrenewableResources.k / nonrenewableResourcesInitialK;
   }
-  
+
 var fractionOfCapitalAllocatedToObtainingResources = new Aux("fractionOfCapitalAllocatedToObtainingResources", 134);
   fractionOfCapitalAllocatedToObtainingResources.units = "dimensionless";
   fractionOfCapitalAllocatedToObtainingResources.dependencies = ["fractionOfCapitalAllocatedToObtainingResourcesBefore", "fractionOfCapitalAllocatedToObtainingResourcesAfter"];
   fractionOfCapitalAllocatedToObtainingResources.updateFn = function() {
     return clip(fractionOfCapitalAllocatedToObtainingResourcesAfter.k, fractionOfCapitalAllocatedToObtainingResourcesBefore.k, t, policyYear);
   }
-  
+
 var fractionOfCapitalAllocatedToObtainingResourcesBefore = new Table("fractionOfCapitalAllocatedToObtainingResourcesBefore", 135, [1, 0.9, 0.7, 0.5, 0.2, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05], 0, 1, 0.1);
   fractionOfCapitalAllocatedToObtainingResourcesBefore.units = "dimensionless";
   fractionOfCapitalAllocatedToObtainingResourcesBefore.dependencies = ["nonrenewableResourceFractionRemaining"];
   fractionOfCapitalAllocatedToObtainingResourcesBefore.updateFn = function() {
     return nonrenewableResourceFractionRemaining.k;
   }
-  
+
 var fractionOfCapitalAllocatedToObtainingResourcesAfter = new Table("fractionOfCapitalAllocatedToObtainingResourcesAfter", 136, [1, 0.9, 0.7, 0.5, 0.2, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05], 0, 1, 0.1);
   fractionOfCapitalAllocatedToObtainingResourcesAfter.units = "dimensionless";
   fractionOfCapitalAllocatedToObtainingResourcesAfter.dependencies = ["nonrenewableResourceFractionRemaining"];
   fractionOfCapitalAllocatedToObtainingResourcesAfter.updateFn = function() {
     return nonrenewableResourceFractionRemaining.k;
   }
-  
+
 
 // PERSISTENT POLLUTION SECTOR
 
@@ -1719,7 +1719,7 @@ var persistentPollutionGenerationRate = new Rate("persistentPollutionGenerationR
   persistentPollutionGenerationRate.updateFn = function() {
     return (persistentPollutionGeneratedByIndustrialOutput.k + persistentPollutionGeneratedByAgriculturalOutput.k) * persistentPollutionGenerationFactor.k;
   }
-  
+
 var persistentPollutionGenerationFactor = new Aux("persistentPollutionGenerationFactor", 138);
   persistentPollutionGenerationFactor.units = "dimensionless";
   persistentPollutionGenerationFactor.before = 1;
@@ -1732,35 +1732,35 @@ var persistentPollutionGeneratedByIndustrialOutput = new Aux("persistentPollutio
   persistentPollutionGeneratedByIndustrialOutput.units = "pollution units per year";
   persistentPollutionGeneratedByIndustrialOutput.fractionOfResourcesAsPersistentMaterial = 0.02;  // dimensionless
   persistentPollutionGeneratedByIndustrialOutput.industrialMaterialsEmissionFactor = 0.1;  // dimensionless
-  persistentPollutionGeneratedByIndustrialOutput.industrialMaterialsToxicityIndex = 10;  // pollution units per resource unit  
+  persistentPollutionGeneratedByIndustrialOutput.industrialMaterialsToxicityIndex = 10;  // pollution units per resource unit
   persistentPollutionGeneratedByIndustrialOutput.dependencies = ["perCapitaResourceUsageMultiplier", "population"];
   persistentPollutionGeneratedByIndustrialOutput.updateFn = function() {
     return perCapitaResourceUsageMultiplier.k * population.k * persistentPollutionGeneratedByIndustrialOutput.fractionOfResourcesAsPersistentMaterial * persistentPollutionGeneratedByIndustrialOutput.industrialMaterialsEmissionFactor * persistentPollutionGeneratedByIndustrialOutput.industrialMaterialsToxicityIndex;
   }
-  
+
 var persistentPollutionGeneratedByAgriculturalOutput = new Aux("persistentPollutionGeneratedByAgriculturalOutput", 140);
   persistentPollutionGeneratedByAgriculturalOutput.units = "pollution units per year";
   persistentPollutionGeneratedByAgriculturalOutput.fractionOfInputsAsPersistentMaterial = 0.001;  // dimensionless
-  persistentPollutionGeneratedByAgriculturalOutput.agriculturalMaterialsToxicityIndex = 1;  // pollution units per dollar  
+  persistentPollutionGeneratedByAgriculturalOutput.agriculturalMaterialsToxicityIndex = 1;  // pollution units per dollar
   persistentPollutionGeneratedByAgriculturalOutput.dependencies = ["agriculturalInputsPerHectare"];
   persistentPollutionGeneratedByAgriculturalOutput.updateFn = function() {
     return agriculturalInputsPerHectare.k * arableLand.k * persistentPollutionGeneratedByAgriculturalOutput.fractionOfInputsAsPersistentMaterial * persistentPollutionGeneratedByAgriculturalOutput.agriculturalMaterialsToxicityIndex;
   }
-  
-var persistentPollutionTransmissionDelayK = 20; // years, used in eqn 141  
+
+var persistentPollutionTransmissionDelayK = 20; // years, used in eqn 141
 
 var persistenPollutionAppearanceRate = new Delay3("persistenPollutionAppearanceRate", 141, persistentPollutionTransmissionDelayK);
   persistenPollutionAppearanceRate.units = "pollution units per year";
   persistenPollutionAppearanceRate.initFn = function() {return persistentPollutionGenerationRate; }
   persistenPollutionAppearanceRate.qType = "Rate";
   rateArray.push(auxArray.pop());   // put this among the Rates, not the Auxes
-  
+
 var persistentPollution = new Level("persistentPollution", 142, 2.5e7);
   persistentPollution.units = "pollution units";
   persistentPollution.updateFn = function() {
     return persistentPollution.j + dt * (persistenPollutionAppearanceRate.j - persistenPollutionAssimilationRate.j);
   }
-  
+
 var indexOfPersistentPollution = new Aux("indexOfPersistentPollution", 143);
   indexOfPersistentPollution.units = "dimensionless";
   indexOfPersistentPollution.pollutionValueIn1970 = 1.36e8; // pollution units, used in eqn 143
@@ -1770,13 +1770,13 @@ var indexOfPersistentPollution = new Aux("indexOfPersistentPollution", 143);
   indexOfPersistentPollution.updateFn = function() {
     return persistentPollution.k / indexOfPersistentPollution.pollutionValueIn1970;
   }
-  
+
 var persistenPollutionAssimilationRate = new Rate("persistenPollutionAssimilationRate", 144);
   persistenPollutionAssimilationRate.units = "pollution units per year";
   persistenPollutionAssimilationRate.updateFn = function() {
     return persistentPollution.k / (assimilationHalfLife.k * 1.4);
   }
-  
+
 var assimilationHalfLifeMultiplier = new Table("assimilationHalfLifeMultiplier", 145, [1, 11, 21, 31, 41], 1, 1001, 250);
   assimilationHalfLifeMultiplier.units = "dimensionless";
   assimilationHalfLifeMultiplier.dependencies = ["indexOfPersistentPollution"];
@@ -1791,7 +1791,7 @@ var assimilationHalfLife = new Aux("assimilationHalfLife", 146);
   assimilationHalfLife.updateFn = function() {
     return assimilationHalfLifeMultiplier.k * assimilationHalfLife.valueIn1970;
   }
-  
+
 // SUPPLEMENTARY EQUATIONS
 
 var fractionOfOutputInAgriculture = new Aux("fractionOfOutputInAgriculture", 147);
@@ -1865,7 +1865,7 @@ var setUpGraph = function() {
   var cvx = cv.getContext("2d");
 
   // draw horizontal gridlines
-  
+
   cvx.lineWidth = 1;
   cvx.strokeStyle = "#fff"
   for (var y = 0 ; y <= 5 ; y++) {
@@ -1873,9 +1873,9 @@ var setUpGraph = function() {
     cvx.lineTo(scaleX(1, 0, 1), scaleY(y, 0, 5));
     cvx.stroke();
   }
-  
+
   // draw vertical gridlines
-  
+
   cvx.lineWidth = 1;
   cvx.strokeStyle = "#fff"
   for (var x = startTime ; x <= stopTime ; x += 50) {
@@ -1883,9 +1883,9 @@ var setUpGraph = function() {
     cvx.lineTo(scaleX(x, startTime, stopTime), scaleY(1, 0, 1));
     cvx.stroke();
   }
-  
+
   // place labels for time axis
-  
+
   cvx.font = "1.0em 'Helvetica Neue', Helvetica, Verdana, sans-serif";
   cvx.textAlign = "center";
   cvx.fillStyle = "#000";
@@ -1894,7 +1894,7 @@ var setUpGraph = function() {
     cvx.fillText(textX.toString(), scaleX(textX, startTime, stopTime), textY);
   }
   cvx.fillText("year", scaleX(1, 0, 2), gBottom + 40);
-  
+
 }
 
 
@@ -2057,8 +2057,8 @@ var pollCheckBoxes = function() {
     }
     else {
       theSample.style.backgroundColor = "transparent";
-      theEqn.plotThisVar = false;    
-    }    
+      theEqn.plotThisVar = false;
+    }
   }
 }
 
@@ -2104,38 +2104,5 @@ var logData = function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+window.setUpModel = setUpModel;
+window.runModel = runModel;
