@@ -2,9 +2,9 @@
   "name": "limits-to-growth-world3",
   "version": "0.1.0",
   "description": "Limits to Growth",
-  "main": "ltg.js",
+  "main": "src/ltg.js",
   "scripts": {
-    "start": "parcel ltg.html",
+    "start": "parcel src/ltg.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
